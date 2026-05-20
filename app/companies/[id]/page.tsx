@@ -36,9 +36,18 @@ export default async function CompanyDetailPage({
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-blue-600 text-white px-4 py-4 flex items-center gap-3">
-        <Link href="/companies" className="text-blue-200 hover:text-white text-sm">← 一覧</Link>
-        <h1 className="text-lg font-bold truncate">{company.name}</h1>
+      <header className="bg-blue-600 text-white px-4 py-4 flex items-center justify-between">
+        <div className="flex items-center gap-3 min-w-0">
+          <Link href="/companies" className="text-blue-200 hover:text-white text-sm shrink-0">← 一覧</Link>
+          <h1 className="text-lg font-bold truncate">{company.name}</h1>
+        </div>
+        <a
+          href={`/api/companies/${company.id}/pdf`}
+          download
+          className="shrink-0 ml-3 bg-white text-blue-600 hover:bg-blue-50 text-xs font-medium px-3 py-2 rounded-lg transition-colors"
+        >
+          PDF出力
+        </a>
       </header>
 
       <div className="p-4 max-w-2xl mx-auto">
