@@ -11,6 +11,17 @@ const RECRUIT_KEYWORDS = [
   "環境", "職場", "ドライバー", "運転手", "配送",
 ];
 
+// 正社員に関連するキーワード（スコアを上乗せ）
+const SEISHAIN_KEYWORDS = [
+  "正社員", "正職員", "正規", "seishain", "full-time", "fulltime", "regular",
+];
+
+// スキップすべき雇用形態キーワードを含むページ（アルバイト・パート・派遣等）
+const NON_REGULAR_KEYWORDS = [
+  "アルバイト", "バイト", "パート", "派遣", "契約社員", "嘱託",
+  "arubaito", "part-time", "parttime", "temporary", "contract",
+];
+
 function isInternalLink(href: string, baseUrl: URL): boolean {
   try {
     const url = new URL(href, baseUrl.origin);
@@ -22,7 +33,10 @@ function isInternalLink(href: string, baseUrl: URL): boolean {
 
 function scoreUrl(url: string): number {
   const lower = url.toLowerCase();
-  return RECRUIT_KEYWORDS.reduce((score, kw) => score + (lower.includes(kw) ? 1 : 0), 0);
+  const recruitScore = RECRUIT_KEYWORDS.reduce((s, kw) => s + (lower.includes(kw) ? 1 : 0), 0);
+  const seishainBonus = SEISHAIN_KEYWORDS.reduce((s, kw) => s + (lower.includes(kw) ? 3 : 0), 0);
+  const nonRegularPenalty = NON_REGULAR_KEYWORDS.reduce((s, kw) => s + (lower.includes(kw) ? -5 : 0), 0);
+  return recruitScore + seishainBonus + nonRegularPenalty;
 }
 
 async function fetchHtml(url: string): Promise<string> {
@@ -174,6 +188,10 @@ ${sources.join("\n\n")}
 
 ---
 
+【重要】対象は「正社員」の雇用条件・待遇のみです。
+アルバイト・パート・派遣・契約社員など正社員以外の雇用形態に関する情報は一切含めないでください。
+正社員の情報が明示されていない場合は、正社員向けと推定できる情報のみを使用してください。
+
 以下のカテゴリに分類して、訴求ポイントをJSON形式で出力してください。
 カテゴリ: 「給与・待遇」「職場環境」「待遇」「キャリア」「その他」
 
@@ -184,6 +202,7 @@ ${sources.join("\n\n")}
 ]
 
 ルール:
+- 対象: 正社員のみ（アルバイト・パート・派遣・契約社員の情報は除外）
 - 1カテゴリにつき最大3件まで
 - 合計8件以内
 - 数字・具体的な条件を含む内容を優先する
