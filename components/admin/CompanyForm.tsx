@@ -39,7 +39,7 @@ export default function CompanyForm({ initialData }: Props) {
   const [extractedAppeals, setExtractedAppeals] = useState<ExtractedAppeal[]>([]);
   const [saving, setSaving] = useState(false);
 
-  const hasSource = homepageUrl || jobSiteUrl || csvFile;
+  const hasSource = !!(homepageUrl || jobSiteUrl || csvFile) && !!form.name;
 
   const handleExtract = async () => {
     setExtracting(true);
