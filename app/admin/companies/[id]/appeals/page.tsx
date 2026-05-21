@@ -7,8 +7,10 @@ export const dynamic = "force-dynamic";
 
 export default async function AppealsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  const companyId = parseInt(id, 10);
+  if (isNaN(companyId)) notFound();
   const company = await prisma.company.findUnique({
-    where: { id: Number(id) },
+    where: { id: companyId },
     include: { appealPoints: { orderBy: { priority: "asc" } } },
   });
   if (!company) notFound();

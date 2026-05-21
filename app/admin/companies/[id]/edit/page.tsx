@@ -7,7 +7,9 @@ export const dynamic = "force-dynamic";
 
 export default async function EditCompanyPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const company = await prisma.company.findUnique({ where: { id: Number(id) } });
+  const companyId = parseInt(id, 10);
+  if (isNaN(companyId)) notFound();
+  const company = await prisma.company.findUnique({ where: { id: companyId } });
   if (!company) notFound();
 
   return (

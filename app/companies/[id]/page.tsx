@@ -13,8 +13,10 @@ export default async function CompanyDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  const companyId = parseInt(id, 10);
+  if (isNaN(companyId)) notFound();
   const company = await prisma.company.findUnique({
-    where: { id: Number(id) },
+    where: { id: companyId },
     include: { appealPoints: { orderBy: { priority: "asc" } } },
   });
   if (!company) notFound();
