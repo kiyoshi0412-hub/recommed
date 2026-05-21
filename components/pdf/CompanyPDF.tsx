@@ -118,7 +118,6 @@ type Appeal = { id: number; category: string; content: string; priority: number 
 type Props = {
   company: {
     name: string;
-    area?: string | null;
     industry?: string | null;
     description?: string | null;
     appealPoints: Appeal[];
@@ -148,7 +147,6 @@ export default function CompanyPDF({ company, outputDate }: Props) {
           <Text style={styles.headerLabel}>企業訴求ポイント資料</Text>
           <Text style={styles.companyName}>{company.name}</Text>
           <View style={styles.badgeRow}>
-            {company.area && <Text style={styles.badge}>{company.area}</Text>}
             {company.industry && <Text style={styles.badge}>{company.industry}</Text>}
           </View>
           {company.description && (

@@ -14,7 +14,6 @@ export async function POST(req: Request) {
   const company = await prisma.company.create({
     data: {
       name: body.name,
-      area: body.area ?? null,
       industry: body.industry ?? null,
       description: body.description ?? null,
     },

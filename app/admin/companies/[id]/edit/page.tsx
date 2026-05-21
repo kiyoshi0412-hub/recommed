@@ -22,7 +22,6 @@ export default async function EditCompanyPage({ params }: { params: Promise<{ id
             initialData={{
               id: company.id,
               name: company.name,
-              area: company.area ?? "",
               industry: company.industry ?? "",
               description: company.description ?? "",
             }}

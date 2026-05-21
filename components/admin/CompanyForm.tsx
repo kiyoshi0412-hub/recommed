@@ -6,7 +6,6 @@ type Props = {
   initialData?: {
     id?: number;
     name: string;
-    area: string;
     industry: string;
     description: string;
   };
@@ -18,8 +17,7 @@ type ExtractedAppeal = {
   priority: number;
 };
 
-const AREAS = ["関東", "関西", "東北", "中部", "九州・沖縄", "北海道", "中国・四国", "北陸・甲信越"];
-const INDUSTRIES = ["一般貨物", "冷凍・冷蔵輸送", "宅配・小口配送", "タンクローリー", "重機・建設", "引越し", "その他"];
+const INDUSTRIES =["一般貨物", "冷凍・冷蔵輸送", "宅配・小口配送", "タンクローリー", "重機・建設", "引越し", "その他"];
 const CATEGORIES = ["給与・待遇", "職場環境", "待遇", "キャリア", "その他"];
 
 export default function CompanyForm({ initialData }: Props) {
@@ -28,7 +26,6 @@ export default function CompanyForm({ initialData }: Props) {
 
   const [form, setForm] = useState({
     name: initialData?.name ?? "",
-    area: initialData?.area ?? "",
     industry: initialData?.industry ?? "",
     description: initialData?.description ?? "",
   });
@@ -140,29 +137,16 @@ export default function CompanyForm({ initialData }: Props) {
               placeholder="例）山田運輸株式会社"
             />
           </div>
-          <div className="flex gap-3">
-            <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-700 mb-1">エリア</label>
-              <select
-                value={form.area}
-                onChange={(e) => setForm({ ...form, area: e.target.value })}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:border-blue-400"
-              >
-                <option value="">選択</option>
-                {AREAS.map((a) => <option key={a} value={a}>{a}</option>)}
-              </select>
-            </div>
-            <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-700 mb-1">業種</label>
-              <select
-                value={form.industry}
-                onChange={(e) => setForm({ ...form, industry: e.target.value })}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:border-blue-400"
-              >
-                <option value="">選択</option>
-                {INDUSTRIES.map((i) => <option key={i} value={i}>{i}</option>)}
-              </select>
-            </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">業種</label>
+            <select
+              value={form.industry}
+              onChange={(e) => setForm({ ...form, industry: e.target.value })}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:border-blue-400"
+            >
+              <option value="">選択してください</option>
+              {INDUSTRIES.map((i) => <option key={i} value={i}>{i}</option>)}
+            </select>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">企業概要</label>

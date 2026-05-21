@@ -53,14 +53,11 @@ export default async function CompanyDetailPage({
       <div className="p-4 max-w-2xl mx-auto">
         {/* 企業概要 */}
         <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 mb-5">
-          <div className="flex gap-2 mb-2">
-            {company.area && (
-              <span className="text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">{company.area}</span>
-            )}
-            {company.industry && (
-              <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">{company.industry}</span>
-            )}
-          </div>
+          {company.industry && (
+            <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full inline-block mb-2">
+              {company.industry}
+            </span>
+          )}
           {company.description && (
             <p className="text-sm text-gray-600">{company.description}</p>
           )}

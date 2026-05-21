@@ -14,8 +14,7 @@ async function main() {
   const company1 = await prisma.company.create({
     data: {
       name: "山田運輸株式会社",
-      area: "関東",
-      industry: "一般貨物",
+            industry: "一般貨物",
       description: "首都圏を中心に30年の実績を持つ中堅運送会社。ドライバーの働きやすさを重視した職場環境が特徴。",
       appealPoints: {
         create: [
@@ -32,7 +31,6 @@ async function main() {
   const company2 = await prisma.company.create({
     data: {
       name: "東西ロジスティクス株式会社",
-      area: "関西",
       industry: "冷凍・冷蔵輸送",
       description: "食品・医薬品の冷凍・冷蔵輸送に特化した専門会社。全国ネットワークを持つ成長企業。",
       appealPoints: {
@@ -50,7 +48,6 @@ async function main() {
   const company3 = await prisma.company.create({
     data: {
       name: "北斗配送株式会社",
-      area: "東北",
       industry: "宅配・小口配送",
       description: "東北エリア密着の宅配会社。地域No.1のシェアを誇り、安定した仕事量が魅力。",
       appealPoints: {

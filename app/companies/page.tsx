@@ -6,21 +6,17 @@ export const dynamic = "force-dynamic";
 export default async function CompaniesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ area?: string; industry?: string }>;
+  searchParams: Promise<{ industry?: string }>;
 }) {
-  const { area, industry } = await searchParams;
+  const { industry } = await searchParams;
 
   const companies = await prisma.company.findMany({
-    where: {
-      ...(area ? { area } : {}),
-      ...(industry ? { industry } : {}),
-    },
+    where: { ...(industry ? { industry } : {}) },
     include: { _count: { select: { appealPoints: true } } },
     orderBy: { name: "asc" },
   });
 
-  const allCompanies = await prisma.company.findMany({ select: { area: true, industry: true } });
-  const areas = [...new Set(allCompanies.map((c) => c.area).filter(Boolean))] as string[];
+  const allCompanies = await prisma.company.findMany({ select: { industry: true } });
   const industries = [...new Set(allCompanies.map((c) => c.industry).filter(Boolean))] as string[];
 
   return (
@@ -33,16 +29,6 @@ export default async function CompaniesPage({
       <div className="p-4 max-w-2xl mx-auto">
         {/* フィルター */}
         <form className="flex gap-2 mb-5">
-          <select
-            name="area"
-            defaultValue={area ?? ""}
-            className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white"
-          >
-            <option value="">エリア: すべて</option>
-            {areas.map((a) => (
-              <option key={a} value={a}>{a}</option>
-            ))}
-          </select>
           <select
             name="industry"
             defaultValue={industry ?? ""}
@@ -75,14 +61,11 @@ export default async function CompaniesPage({
               <div className="flex items-start justify-between">
                 <div>
                   <h2 className="font-bold text-gray-800">{company.name}</h2>
-                  <div className="flex gap-2 mt-1">
-                    {company.area && (
-                      <span className="text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">{company.area}</span>
-                    )}
-                    {company.industry && (
-                      <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">{company.industry}</span>
-                    )}
-                  </div>
+                  {company.industry && (
+                    <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full mt-1 inline-block">
+                      {company.industry}
+                    </span>
+                  )}
                   {company.description && (
                     <p className="text-sm text-gray-500 mt-2 line-clamp-2">{company.description}</p>
                   )}
